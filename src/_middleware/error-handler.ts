@@ -1,13 +1,16 @@
 import { NextFunction, Request, Response } from 'express';
 
-export const errorHandler = (err: any, req: Request, res: Response, next: NextFunction) => {
-  switch (true) {
-    case typeof err === 'string':
-      const is404 = err.toLowerCase().endsWith('not found');
-      const statusCode = is404 ? 404 : 400;
-      return res.status(statusCode).json({ message: err });
-    default:
-      return res.status(500).json({ message: err.message });
-  }
-};
+export const errorHandler = (err: unknown, req: Request, res: Response, next: NextFunction) => {
+    console.error("Error:", err); 
 
+    if (typeof err === 'string') {
+        const statusCode = err.toLowerCase().endsWith('not found') ? 404 : 400;
+        return res.status(statusCode).json({ message: err });
+    }
+
+    if (err instanceof Error) {
+        return res.status(500).json({ message: err.message });
+    }
+
+    return res.status(500).json({ message: "An unknown error occurred" });
+};

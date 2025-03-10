@@ -17,5 +17,5 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
     errorHandler(err, req, res, next);
   });
   
-const port = process.env.NODE_ENV === 'production' ? (process.env.PORT || 80) : 5000;
+const port = process.env.NODE_ENV === 'production' ? (process.env.PORT || 80) : 7000;
 app.listen(port, () => console.log(`Server listening on port ${port}`));
